@@ -1,0 +1,53 @@
+# Target path relative to plugin root: Justfile
+
+default:
+    @just --list
+
+dev:
+    uv run python -m my_service_mcp.server
+
+test:
+    uv run pytest
+
+lint:
+    uv run ruff check .
+    uv run ty check
+
+fmt:
+    uv run ruff format .
+
+typecheck:
+    uv run ty check
+
+validate-skills:
+    npx skills-ref validate skills/
+
+build:
+    docker compose build
+
+up:
+    docker compose up -d
+
+down:
+    docker compose down
+
+restart:
+    docker compose restart
+
+logs args='':
+    docker compose logs -f {{ args }}
+
+health:
+    @curl -sf http://localhost:${MY_SERVICE_MCP_PORT:-9000}/health | jq . || echo "UNHEALTHY"
+
+test-live:
+    bash tests/test_live.sh
+
+setup:
+    @[ -f .env ] || cp .env.example .env && chmod 600 .env && echo "Created .env from .env.example"
+
+gen-token:
+    @openssl rand -hex 32
+
+check-contract:
+    bash scripts/lint-plugin.sh

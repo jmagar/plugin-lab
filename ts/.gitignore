@@ -1,0 +1,59 @@
+# Target path relative to plugin root: .gitignore
+
+# Secrets
+.env
+.env.*
+!.env.example
+
+# Runtime / hook artifacts
+backups/*
+!backups/.gitkeep
+logs/*
+!logs/.gitkeep
+*.log
+
+# Claude Code / AI tooling
+.claude/settings.local.json
+.claude/*.local.md
+.claude/worktrees/
+.omc/
+.lavra/memory/session-state.md
+.beads/
+.serena/
+.worktrees
+.full-review/
+.full-review-archive-*
+
+# IDE / editor
+.vscode/
+.cursor/
+.windsurf/
+.1code/
+
+# Caches
+.cache/
+
+# Documentation artifacts
+docs/plans/
+docs/sessions/
+docs/reports/
+docs/research/
+docs/superpowers/
+
+# Node / TypeScript
+node_modules/
+dist/
+build/
+out/
+.next/
+.nuxt/
+coverage/
+.nyc_output/
+*.tsbuildinfo
+.eslintcache
+.stylelintcache
+.parcel-cache/
+.turbo/
+.vercel/
+*.js.map
+*.d.ts.map

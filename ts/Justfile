@@ -1,0 +1,52 @@
+# Target path relative to plugin root: Justfile
+
+default:
+    @just --list
+
+dev:
+    npm run dev
+
+test:
+    npm test
+
+lint:
+    npx biome check .
+
+fmt:
+    npx biome format --write .
+
+typecheck:
+    npx tsc --noEmit
+
+validate-skills:
+    npx skills-ref validate skills/
+
+build:
+    docker compose build
+
+up:
+    docker compose up -d
+
+down:
+    docker compose down
+
+restart:
+    docker compose restart
+
+logs args='':
+    docker compose logs -f {{ args }}
+
+health:
+    @curl -sf http://localhost:${MY_SERVICE_MCP_PORT:-9000}/health | jq . || echo "UNHEALTHY"
+
+test-live:
+    bash tests/test_live.sh
+
+setup:
+    @[ -f .env ] || cp .env.example .env && chmod 600 .env && echo "Created .env from .env.example"
+
+gen-token:
+    @openssl rand -hex 32
+
+check-contract:
+    bash scripts/lint-plugin.sh

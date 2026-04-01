@@ -1,0 +1,41 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "startup|resume",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/usr/bin/env bash hooks/scripts/sync-env.sh",
+            "timeout": 30,
+            "statusMessage": "Syncing plugin environment"
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/usr/bin/env bash scripts/lint-plugin.sh",
+            "timeout": 30,
+            "statusMessage": "Checking Bash invocation"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/usr/bin/env bash scripts/lint-plugin.sh",
+            "timeout": 30
+          }
+        ]
+      }
+    ]
+  }
+}

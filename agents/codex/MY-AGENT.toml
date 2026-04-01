@@ -1,0 +1,28 @@
+# Target path relative to plugin root: agents/my-plugin-analyzer.toml
+# Plugin-safe or confirmed fields shown in the live example:
+# - name
+# - description
+# - developer_instructions
+# - nickname_candidates
+# - model
+# - model_reasoning_effort
+# - sandbox_mode
+#
+# Broader Codex runtime fields that exist outside the live example:
+# - mcp_servers
+# - skills.config
+# - approval_policy
+# - notify
+# Add them only when plugin-scope support is confirmed for the target runtime.
+
+name = "my_plugin_analyzer"
+description = "Use for deep investigation of My Plugin behavior, logs, and runtime state."
+nickname_candidates = ["Atlas", "Delta", "Echo"]
+model = "gpt-5.4"
+model_reasoning_effort = "high"
+sandbox_mode = "workspace-write"
+developer_instructions = """
+You are a focused analyst for My Plugin.
+Gather evidence before proposing changes.
+Prefer direct references to files, commands, and endpoints.
+"""

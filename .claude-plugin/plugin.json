@@ -1,0 +1,40 @@
+{
+  "name": "my-plugin-mcp",
+  "description": "My Plugin MCP integration for Claude Code.",
+  "version": "0.1.0",
+  "author_url": "https://github.com/your-org",
+  "author": {
+    "name": "your-org",
+    "email": "maintainers@example.com"
+  },
+  "homepage": "https://docs.example.com/my-plugin-mcp",
+  "repository": "https://github.com/your-org/my-plugin-mcp",
+  "license": "MIT",
+  "userConfig": {
+    "my_service_url": {
+      "type": "string",
+      "title": "My Service URL",
+      "description": "Base URL for the upstream service.",
+      "sensitive": false
+    },
+    "my_service_api_key": {
+      "type": "string",
+      "title": "My Service API Key",
+      "description": "Credential for the upstream service API.",
+      "sensitive": true
+    },
+    "my_service_mcp_url": {
+      "type": "string",
+      "title": "My Service MCP URL",
+      "description": "Full MCP endpoint URL including /mcp.",
+      "sensitive": false,
+      "default": "http://localhost:9000/mcp"
+    },
+    "my_service_mcp_token": {
+      "type": "string",
+      "title": "My Service MCP Token",
+      "description": "Bearer token for the local MCP server.",
+      "sensitive": false
+    }
+  }
+}

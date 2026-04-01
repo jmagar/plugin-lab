@@ -1,0 +1,20 @@
+name: ci
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  lint-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - run: cargo fmt --check
+      - run: cargo clippy -- -D warnings
+      - run: npx skills-ref validate skills/
+      - run: bash scripts/check-docker-security.sh
+      - run: bash scripts/check-no-baked-env.sh .
+      - run: bash hooks/scripts/ensure-ignore-files.sh --check .
+      - run: bash scripts/lint-plugin.sh
+      - run: cargo test

@@ -1,0 +1,35 @@
+# Target path relative to plugin root: docker-compose.yaml
+
+services:
+  my-plugin-mcp:
+    build: .
+    container_name: my-plugin-mcp
+    restart: unless-stopped
+    user: "${PUID:-1000}:${PGID:-1000}"
+    env_file: .env
+    # NOTE: No environment: block. All variables come from .env via env_file.
+    ports:
+      - "${MY_SERVICE_MCP_PORT:-9000}:9000/tcp"
+    volumes:
+      - ${MY_SERVICE_MCP_VOLUME:-my-service-mcp-data}:/data
+    networks:
+      - proxy
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q --spider http://localhost:9000/health || exit 1"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+          cpus: '1.0'
+
+volumes:
+  my-service-mcp-data:
+
+networks:
+  proxy:
+    name: ${DOCKER_NETWORK:-my-service_mcp}
+    external: true

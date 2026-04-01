@@ -1,0 +1,46 @@
+# Target path relative to plugin root: .dockerignore
+
+# Version control
+.git
+.github
+
+# Secrets
+.env
+.env.*
+!.env.example
+
+# Claude Code / AI tooling
+.claude
+.claude/settings.local.json
+.claude-plugin
+.codex-plugin
+.omc
+.lavra
+.beads
+.serena
+.worktrees
+.full-review
+.full-review-archive-*
+
+# IDE / editor
+.vscode
+.cursor
+.windsurf
+.1code
+
+# Docs, tests, scripts
+docs
+tests
+scripts
+*.md
+!README.md
+
+# Runtime artifacts
+logs
+backups
+*.log
+.cache
+
+# Rust
+target/
+Cargo.lock

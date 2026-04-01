@@ -1,0 +1,107 @@
+name: release-on-main
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python for version extraction
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Determine version from project manifest
+        id: version
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          version=""
+
+          if [ -f Cargo.toml ]; then
+            version="$(python3 - <<'PY'
+            import tomllib
+            from pathlib import Path
+
+            data = tomllib.loads(Path("Cargo.toml").read_text())
+            print(data["package"]["version"])
+            PY
+            )"
+          elif [ -f package.json ]; then
+            version="$(python3 - <<'PY'
+            import json
+            from pathlib import Path
+
+            data = json.loads(Path("package.json").read_text())
+            print(data["version"])
+            PY
+            )"
+          elif [ -f pyproject.toml ]; then
+            version="$(python3 - <<'PY'
+            import tomllib
+            from pathlib import Path
+
+            data = tomllib.loads(Path("pyproject.toml").read_text())
+            print(data["project"]["version"])
+            PY
+            )"
+          else
+            echo "No supported manifest found (Cargo.toml, package.json, pyproject.toml)." >&2
+            exit 1
+          fi
+
+          if [ -z "$version" ]; then
+            echo "Version could not be determined." >&2
+            exit 1
+          fi
+
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          echo "tag=v$version" >> "$GITHUB_OUTPUT"
+
+      - name: Check whether tag already exists
+        id: tag_check
+        shell: bash
+        run: |
+          set -euo pipefail
+          if git rev-parse "${{ steps.version.outputs.tag }}" >/dev/null 2>&1; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Fail if release tag already exists
+        if: steps.tag_check.outputs.exists == 'true'
+        run: |
+          echo "Tag ${{ steps.version.outputs.tag }} already exists."
+          echo "Push to main requires a new manifest version."
+          exit 1
+
+      - name: Create and push tag
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git tag "${{ steps.version.outputs.tag }}"
+          git push origin "${{ steps.version.outputs.tag }}"
+
+      - name: Create GitHub release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.version.outputs.tag }}
+          name: ${{ steps.version.outputs.tag }}
+          generate_release_notes: true

@@ -1,0 +1,96 @@
+[build-system]
+requires = ["hatchling>=1.25.0"]
+build-backend = "hatchling.build"
+
+[project]
+name = "my-plugin-mcp"
+version = "0.1.0"
+description = "FastMCP server for My Plugin with dual transport (HTTP + stdio)."
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.12"
+authors = [
+  { name = "Your team", email = "team@example.com" }
+]
+maintainers = [
+  { name = "Your team", email = "team@example.com" }
+]
+keywords = ["mcp", "homelab", "python", "fastmcp"]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: 3 :: Only",
+  "Typing :: Typed"
+]
+dependencies = [
+  "fastmcp>=3.0.0",
+  "httpx>=0.28.1",
+  "python-dotenv>=1.1.1",
+  "uvicorn[standard]>=0.35.0"
+]
+
+[project.urls]
+Homepage = "https://github.com/your-org/my-plugin-mcp"
+Documentation = "https://github.com/your-org/my-plugin-mcp#readme"
+Repository = "https://github.com/your-org/my-plugin-mcp"
+Issues = "https://github.com/your-org/my-plugin-mcp/issues"
+
+[project.scripts]
+my-plugin-mcp-server = "my_plugin_mcp.server:main"
+my-plugin-mcp = "my_plugin_mcp.server:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["my_plugin_mcp"]
+
+[tool.ruff]
+target-version = "py312"
+line-length = 100
+cache-dir = ".cache/.ruff_cache"
+
+[tool.ruff.lint]
+select = ["F", "E", "W", "I", "N", "UP", "B", "SIM", "TCH", "RUF"]
+ignore = ["E501"]
+
+[tool.ty.environment]
+python-version = "3.12"
+
+[tool.ty]
+cache-dir = ".cache/.ty_cache"
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+cache_dir = ".cache/.pytest_cache"
+testpaths = ["tests"]
+python_files = ["test_*.py", "*_test.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = ["-ra", "--strict-markers", "--strict-config", "--tb=short", "-v"]
+
+[tool.coverage.run]
+source = ["my_plugin_mcp"]
+branch = true
+data_file = ".cache/.coverage"
+omit = ["*/tests/*", "*/__pycache__/*", "*/.venv/*"]
+
+[tool.coverage.html]
+directory = ".cache/htmlcov"
+
+[tool.coverage.xml]
+output = ".cache/coverage.xml"
+
+[dependency-groups]
+dev = [
+  "build>=1.2.2",
+  "pre-commit>=4.0.1",
+  "pytest>=8.4.2",
+  "pytest-asyncio>=1.2.0",
+  "pytest-cov>=7.0.0",
+  "ruff>=0.12.8",
+  "ty>=0.0.15",
+  "twine>=6.0.1"
+]
+

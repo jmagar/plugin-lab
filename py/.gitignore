@@ -1,0 +1,69 @@
+# Target path relative to plugin root: .gitignore
+
+# Secrets
+.env
+.env.*
+!.env.example
+
+# Runtime / hook artifacts
+backups/*
+!backups/.gitkeep
+logs/*
+!logs/.gitkeep
+*.log
+
+# Claude Code / AI tooling
+.claude/settings.local.json
+.claude/*.local.md
+.claude/worktrees/
+.omc/
+.lavra/memory/session-state.md
+.beads/
+.serena/
+.worktrees
+.full-review/
+.full-review-archive-*
+
+# IDE / editor
+.vscode/
+.cursor/
+.windsurf/
+.1code/
+
+# Caches
+.cache/
+
+# Documentation artifacts
+docs/plans/
+docs/sessions/
+docs/reports/
+docs/research/
+docs/superpowers/
+
+# Python
+.venv/
+__pycache__/
+*.py[oc]
+*.egg-info/
+*.egg
+dist/
+build/
+sdist/
+wheels/
+.hypothesis/
+.pytest_cache/
+.ruff_cache/
+.ty_cache/
+.mypy_cache/
+.pytype/
+.pyre/
+.pyright/
+htmlcov/
+.coverage
+.coverage.*
+coverage.xml
+.tox/
+.nox/
+pip-log.txt
+pip-wheel-metadata/
+*.whl

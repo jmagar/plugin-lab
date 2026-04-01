@@ -1,0 +1,36 @@
+{
+  "name": "my-plugin-mcp",
+  "version": "0.1.0",
+  "description": "Bundle reusable skills and app integrations.",
+  "author": {
+    "name": "Your team",
+    "email": "team@example.com",
+    "url": "https://example.com"
+  },
+  "homepage": "https://example.com/plugins/my-plugin",
+  "repository": "https://github.com/example/my-plugin",
+  "license": "MIT",
+  "keywords": ["research", "crm"],
+  "skills": "./skills/",
+  "mcpServers": "./.mcp.json",
+  "apps": "./.app.json",
+  "interface": {
+    "displayName": "My Plugin",
+    "shortDescription": "Reusable skills and apps",
+    "longDescription": "Distribute skills and app integrations together.",
+    "developerName": "Your team",
+    "category": "Productivity",
+    "capabilities": ["Read", "Write"],
+    "websiteURL": "https://example.com",
+    "privacyPolicyURL": "https://example.com/privacy",
+    "termsOfServiceURL": "https://example.com/terms",
+    "defaultPrompt": [
+      "Use My Plugin to summarize new CRM notes.",
+      "Use My Plugin to triage new customer follow-ups."
+    ],
+    "brandColor": "#10A37F",
+    "composerIcon": "./assets/icon.png",
+    "logo": "./assets/logo.png",
+    "screenshots": ["./assets/screenshot-1.png"]
+  }
+}

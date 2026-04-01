@@ -1,0 +1,47 @@
+# Target path relative to plugin root: .gitignore
+
+# Secrets
+.env
+.env.*
+!.env.example
+
+# Runtime / hook artifacts
+backups/*
+!backups/.gitkeep
+logs/*
+!logs/.gitkeep
+*.log
+
+# Claude Code / AI tooling
+.claude/settings.local.json
+.claude/*.local.md
+.claude/worktrees/
+.omc/
+.lavra/memory/session-state.md
+.beads/
+.serena/
+.worktrees
+.full-review/
+.full-review-archive-*
+
+# IDE / editor
+.vscode/
+.cursor/
+.windsurf/
+.1code/
+
+# Caches
+.cache/
+
+# Documentation artifacts
+docs/plans/
+docs/sessions/
+docs/reports/
+docs/research/
+docs/superpowers/
+
+# Rust
+target/
+*.db
+**/*.rs.bk
+# Cargo.lock  # uncomment for libraries only, keep for binaries
