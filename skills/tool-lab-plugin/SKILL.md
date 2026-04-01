@@ -11,12 +11,12 @@ Design and implement MCP tools that follow the canonical action+subaction dispat
 
 Every tool exposes a single entry point with two required parameters:
 
-- `action` — the high-level operation (e.g., `message`, `application`, `client`)
-- `subaction` — the specific verb within that operation (e.g., `create`, `list`, `delete`)
+- `action` — the high-level resource being operated on (e.g., `message`, `application`, `client`)
+- `subaction` — the specific verb within that resource (e.g., `create`, `list`, `delete`)
 
 Additional parameters are operation-specific and validated after dispatch.
 
-Example shape:
+**Note:** The action and subaction values in the example below are from the Gotify plugin. Substitute your plugin's actual resource names and verbs.
 
 ```json
 {
@@ -41,7 +41,48 @@ Example shape:
 }
 ```
 
-A companion `*_help` tool lists all valid action+subaction combinations with parameter details.
+A companion `*_help` tool lists all valid action+subaction combinations with parameter details (see `references/help-tool-template.md`).
+
+## Canonical Error Shape
+
+Every tool call that fails must return this shape — never throw an unhandled exception:
+
+```json
+{
+  "isError": true,
+  "content": [
+    {
+      "type": "text",
+      "text": "Error: <action>/<subaction> failed — <reason>"
+    }
+  ]
+}
+```
+
+`isError: true` signals to the MCP client that the tool call failed (as distinct from a successful call that returns an error message in its content). The MCP client uses this flag to decide whether to surface a tool failure vs. relay a normal response. See `references/canonical-error-shape.md` for language-specific helper functions and common mistakes.
+
+## Dispatch Table
+
+Map `(action, subaction)` tuples to handler functions. This is the canonical Python pattern:
+
+```python
+DISPATCH = {
+    ("message", "create"): handle_message_create,
+    ("message", "list"):   handle_message_list,
+    ("message", "delete"): handle_message_delete,
+    ("application", "create"): handle_application_create,
+    ("application", "list"):   handle_application_list,
+    # add rows as you add handlers
+}
+
+async def handle_tool(action: str, subaction: str, params: dict) -> dict:
+    handler = DISPATCH.get((action, subaction))
+    if handler is None:
+        return error_response(f"Unknown action/subaction: {action}/{subaction}")
+    return await handler(params)
+```
+
+For Rust and TypeScript dispatch patterns, see `references/dispatch-table-patterns.md`.
 
 ## Gather Inputs First
 
@@ -65,7 +106,17 @@ Produce in order:
 4. **Help tool** — lists all valid combinations with required/optional params
 5. **Registration** — how the tool is registered with the MCP server
 
-Follow the language-specific handler pattern from `~/workspace/plugin-templates/<lang>/`.
+Follow the language-specific handler pattern from the appropriate language layer directory:
+
+- Python: `~/workspace/plugin-templates/py/`
+- Rust: `~/workspace/plugin-templates/rs/`
+- TypeScript: `~/workspace/plugin-templates/ts/`
+
+## The Help Tool
+
+Every plugin must include a `<plugin-name>_help` tool alongside the main tool. Its inputSchema takes no required parameters (optionally an `action` filter). Its response is a plain-text table listing every valid action/subaction pair and their parameters. MCP clients can call it to discover capabilities at runtime without reading the JSON schema.
+
+See `references/help-tool-template.md` for the full structure, response format, and a concrete Gotify example.
 
 ## Reviewing Existing Tools
 
@@ -76,7 +127,7 @@ Check for:
 - undocumented or inconsistent parameter names
 - actions or subactions not reflected in the enum
 - handlers that do not validate parameters before calling the service
-- error responses that don't follow the canonical error shape
+- error responses that don't follow the canonical error shape (especially: exceptions thrown instead of returned, `isError: false` with error text, missing `content` array wrapper)
 
 Produce a findings list with file references before making changes.
 
@@ -92,6 +143,18 @@ When modifying existing tools:
 
 Avoid renaming stable action/subaction pairs — that is a breaking change.
 
+## Test Guidance
+
+Tests for MCP tools live in two places:
+
+- `tests/test_live.sh` — shell integration tests that hit the real running service. Run these against a real deployment to verify end-to-end behavior.
+- Language-specific unit test files that mock the service layer:
+  - Python: `tests/test_tools.py`
+  - Rust: `tests/tools_test.rs`
+  - TypeScript: `tests/tools.test.ts`
+
+Unit tests mock the service layer and verify dispatch, parameter validation, and error shape. Live tests hit the real service and verify the full stack. When adding a new action/subaction pair, add both a unit test for the handler and a live test for the round-trip.
+
 ## Required Output
 
 At minimum:
@@ -101,3 +164,9 @@ At minimum:
 - the handler stubs or implementations
 - the help tool definition
 - any breaking-change warnings
+
+## Related Skills
+
+- **scaffold-lab-plugin** — creates the plugin structure that the tools live in
+- **pipeline-lab-plugin** — CI pipeline that runs the tool tests
+- **review-lab-plugin** — audits existing plugins for `*_help` conformance and canonical error shape

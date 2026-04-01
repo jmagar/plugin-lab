@@ -1,36 +1,20 @@
 ---
 description: Initialize homelab environment and configure .env file
-argument-hint: ""
-allowed-tools: Bash(tool:*)
+argument-hint: [--force]
+allowed-tools: Bash, Skill
 ---
 
-Initialize your Claude Homelab environment by running the credential setup script.
+# Setup Homelab
 
-## Instructions
+Invoke the `setup` skill to initialize the homelab environment.
 
-Run the setup script to:
-1. Create `~/.claude-homelab/.env` from template
-2. Set secure permissions (600)
-3. Install `~/.claude-homelab/load-env.sh`
+## Workflow
 
-Execute the setup script:
-
-```bash
-bash "${CLAUDE_PLUGIN_ROOT}/scripts/setup-creds.sh"
-```
-
-The script will:
-- Copy `.env.example` to `~/.claude-homelab/.env`
-- Set secure file permissions
-- Install `load-env.sh` into `~/.claude-homelab/`
-- Provide next steps for completing setup
-
-After setup, edit your configuration:
-```bash
-nano ~/.claude-homelab/.env
-```
-
-View all available services:
-```bash
-cat "${CLAUDE_PLUGIN_ROOT}/.env.example"
-```
+1. Invoke the `setup` skill.
+2. The skill will:
+   - Copy `.env.example` to `~/.claude-homelab/.env` (skip if exists, unless `--force` passed)
+   - Set `chmod 600` on the env file
+   - Install `load-env.sh` into `~/.claude-homelab/`
+3. After setup completes, tell the user:
+   - Edit `~/.claude-homelab/.env` to fill in service credentials
+   - Run `/review-lab-plugin` on any service plugin to verify configuration

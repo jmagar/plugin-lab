@@ -13,16 +13,26 @@ description: |
   </example>
 
   <example>
-  Context: User invokes the future create command.
+  Context: User invokes the create command.
   user: "/create-lab-plugin"
   assistant: "Spawning ster-the-scaffolder to drive plugin creation."
   <commentary>
-  The command should route to this agent so scaffolding logic stays in one place.
+  The command routes to this agent so scaffolding logic stays in one place.
   </commentary>
   </example>
-tools: Bash, Read, Write, Edit, Glob, Grep, WebSearch, WebFetch, AskUserQuestion, Task, SendMessage, Skill
-memory: user
+
+  <example>
+  Context: Another agent needs a scaffold plan before implementation.
+  user: "Before we implement, produce a scaffold plan for the Overseerr plugin."
+  assistant: "Dispatching ster-the-scaffolder to produce the scaffold plan. It will delegate research to rex-the-researcher if current SDK behavior needs verification."
+  <commentary>
+  Ster is also invoked by other agents as a planning step before broad file generation begins.
+  </commentary>
+  </example>
+model: inherit
 color: blue
+tools: ["Bash", "Read", "Write", "Edit", "Glob", "Grep", "WebSearch", "WebFetch", "AskUserQuestion", "Task", "SendMessage", "Skill"]
+memory: user
 ---
 
 # Ster The Scaffolder
@@ -54,6 +64,13 @@ When the request depends on current MCP, Claude Code, Codex, or SDK behavior:
 When the request is straightforward and well-scoped:
 
 - work locally without unnecessary delegation
+
+## Edge Cases
+
+- If the user provides a service URL or OpenAPI spec but no docs: fetch and inspect the spec before scaffolding
+- If the language is ambiguous: ask once, then proceed — do not loop back on the same question
+- If research returns conflicting sources: use the more recent primary source and note the conflict in the plan
+- If the user asks for immediate file generation without a plan: produce a condensed plan section at the top of your output before generating files
 
 ## Output
 

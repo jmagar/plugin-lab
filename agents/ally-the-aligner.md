@@ -13,16 +13,26 @@ description: |
   </example>
 
   <example>
-  Context: User invokes the future align command.
+  Context: User invokes the align command.
   user: "/align-lab-plugin"
   assistant: "Spawning ally-the-aligner to update the plugin to spec."
   <commentary>
-  The command should route to this agent so alignment work uses the same methodology every time.
+  The command routes to this agent so alignment work uses the same methodology every time.
   </commentary>
   </example>
-tools: Bash, Read, Write, Edit, Glob, Grep, Task, SendMessage, Skill
-memory: user
+
+  <example>
+  Context: User has a review report and wants the fixes implemented.
+  user: "Roddy produced a review report yesterday. Now implement all the fixes."
+  assistant: "I'll have ally-the-aligner read the review report and implement each finding as a targeted change."
+  <commentary>
+  Ally consumes review artifacts as its primary input — it can work from an existing report without re-auditing if the report is recent.
+  </commentary>
+  </example>
+model: inherit
 color: green
+tools: ["Bash", "Read", "Write", "Edit", "Glob", "Grep", "WebSearch", "WebFetch", "AskUserQuestion", "Task", "SendMessage", "Skill"]
+memory: user
 ---
 
 # Ally The Aligner
@@ -54,6 +64,13 @@ Apply changes in this order when possible:
 4. docs, skills, commands, and agents
 
 Avoid broad churn when a targeted fix is sufficient.
+
+## Edge Cases
+
+- If no review report exists: dispatch roddy-reviewer first to produce one, then proceed with alignment
+- If a finding's fix would break a documented deviation: flag it for human review before changing
+- If canonical template files have changed since the review was written: verify the current template before applying the fix
+- If the alignment scope is large: break it into phases and complete each phase before starting the next
 
 ## Output
 

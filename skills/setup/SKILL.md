@@ -1,6 +1,6 @@
 ---
 name: setup
-description: "Interactive credential setup wizard for claude-homelab. Use when the user wants to configure credentials, set up a new service, update API keys, or run initial setup after installing the homelab-core plugin. Triggers on: 'setup credentials', 'configure plex', 'add my API key', 'I just installed homelab-core', 'setup homelab', or any mention of needing to configure a specific service."
+description: Interactive credential setup wizard for claude-homelab. Use when the user wants to configure credentials, set up a new service, update API keys, or run initial setup after installing the homelab-core plugin. Triggers on: 'setup credentials', 'configure plex', 'add my API key', 'I just installed homelab-core', 'setup homelab', or any mention of needing to configure a homelab service credential.
 ---
 
 # Homelab Credential Setup Wizard
@@ -15,9 +15,17 @@ Check the current state:
 [ -s ~/.claude-homelab/.env ] && echo "NON-EMPTY" || echo "EMPTY"
 ```
 
-If the file is missing entirely, run `setup-creds.sh` first to create it from the template:
+If the file is missing entirely, run `setup-creds.sh` first to create it from the template. Because `CLAUDE_PLUGIN_ROOT` is unreliable, locate the script relative to the skill's own directory:
+
 ```bash
-"${CLAUDE_PLUGIN_ROOT:-$HOME/claude-homelab}/skills/setup/scripts/setup-creds.sh"
+SKILL_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+bash "${SKILL_DIR}/scripts/setup-creds.sh"
+```
+
+If running from a context where `BASH_SOURCE` is not set (e.g., directly from Claude Code), run the script by its known installed path:
+
+```bash
+bash ~/.claude-homelab/scripts/setup-creds.sh
 ```
 
 ## The Wizard Flow
@@ -28,23 +36,25 @@ Group the choices to make it manageable:
 
 > "Which of these do you use? (say all that apply, or 'all', or list numbers)"
 >
+> **Infrastructure** *(no credentials required — can skip in Step 2)*
+> 1. ZFS — local storage CLI (no credentials needed)
+>
+> **Infrastructure (credentials required)**
+> 2. Unraid — NAS/hypervisor (can have 2 servers)
+> 3. UniFi — network
+> 4. Tailscale — VPN mesh
+>
 > **Media**
-> 1. Plex — media server
-> 2. Radarr — movies
-> 3. Sonarr — TV shows
-> 4. Overseerr — media requests
-> 5. Prowlarr — indexers
-> 6. Tautulli — Plex analytics
+> 5. Plex — media server
+> 6. Radarr — movies
+> 7. Sonarr — TV shows
+> 8. Overseerr — media requests
+> 9. Prowlarr — indexers
+> 10. Tautulli — Plex analytics
 >
 > **Downloads**
-> 7. qBittorrent — torrents
-> 8. SABnzbd — Usenet
->
-> **Infrastructure**
-> 9. Unraid — NAS/hypervisor (can have 2 servers)
-> 10. UniFi — network
-> 11. Tailscale — VPN mesh
-> 12. ZFS — storage (no credentials needed, just CLI access)
+> 11. qBittorrent — torrents
+> 12. SABnzbd — Usenet
 >
 > **Utilities**
 > 13. Gotify — push notifications
@@ -58,79 +68,33 @@ Wait for the user's response before continuing.
 
 ### Step 2: For each selected service, collect credentials
 
-Work through services **one at a time**. For each service:
+Work through services **one at a time**. Skip ZFS — it requires no credentials.
 
-1. Tell the user what you need and where to find it
+For each credential-bearing service:
+
+1. Tell the user what you need and where to find it (see `references/service-credentials-guide.md` for per-service detail)
 2. Ask them to paste/type the value
-3. Write it to `~/.claude-homelab/.env` immediately using `sed -i`
+3. Write it to `~/.claude-homelab/.env` immediately using a safe upsert pattern
 4. Confirm it was saved before moving to the next service
 
-**Never echo or log credential values.** Use this pattern to write without revealing:
+**Never echo or log credential values.** Use this upsert pattern to write without revealing, which handles both existing and new keys:
+
 ```bash
-sed -i "s|^SERVICE_URL=.*|SERVICE_URL=$value|" ~/.claude-homelab/.env
+if grep -q "^SERVICE_URL=" ~/.claude-homelab/.env; then
+    sed -i "s|^SERVICE_URL=.*|SERVICE_URL=$value|" ~/.claude-homelab/.env
+else
+    echo "SERVICE_URL=$value" >> ~/.claude-homelab/.env
+fi
+chmod 600 ~/.claude-homelab/.env
 ```
 
-If a key doesn't exist in the file yet, append it:
-```bash
-echo "SERVICE_KEY=$value" >> ~/.claude-homelab/.env
-```
+This prevents two failure modes:
+- **Silent no-op**: `sed -i` on a missing key matches nothing and silently does nothing
+- **Duplicate keys**: plain `>>` appending when the key already exists creates duplicates that confuse parsers
 
-Always ensure `chmod 600 ~/.claude-homelab/.env` after writing.
+Always use the upsert pattern for every key written.
 
-### Service-specific guidance
-
-**Plex** (`PLEX_URL`, `PLEX_TOKEN`)
-- URL: `https://your-plex-ip:32400`
-- Token: Settings → Account → XML TV metadata path — token is in the URL, or use [plex.tv/claim](https://plex.tv/claim)
-
-**Radarr/Sonarr/Prowlarr/Overseerr** (`*_URL`, `*_API_KEY`)
-- URL: the base URL including port
-- API key: Settings → General → API Key
-
-**Tautulli** (`TAUTULLI_URL`, `TAUTULLI_API_KEY`)
-- API key: Settings → Web Interface → API key
-
-**qBittorrent** (`QBITTORRENT_URL`, `QBITTORRENT_USERNAME`, `QBITTORRENT_PASSWORD`)
-- URL: the WebUI URL
-- Credentials: whatever you set in the WebUI
-
-**SABnzbd** (`SABNZBD_URL`, `SABNZBD_API_KEY`)
-- URL: the SABnzbd web interface URL
-- API key: Config → General → API Key
-
-**Unraid** (`UNRAID_SERVER1_NAME`, `UNRAID_SERVER1_URL`, `UNRAID_SERVER1_API_KEY`, and optionally `UNRAID_SERVER2_*`)
-- URL: `https://your-unraid-ip/graphql`
-- API key: Unraid Settings → Management Access → API Keys → Create (Viewer role is sufficient)
-- Ask the user what they want to name each server (used as the display label in health checks)
-- Supports two servers; skip SERVER2 if they only have one
-
-**UniFi** (`UNIFI_URL`, `UNIFI_USERNAME`, `UNIFI_PASSWORD`, `UNIFI_SITE`)
-- URL: `https://your-unifi-controller-ip`
-- Site: usually `default`
-
-**Tailscale** (`TAILSCALE_API_KEY`, `TAILSCALE_TAILNET`)
-- API key: [tailscale.com/admin/settings/keys](https://tailscale.com/admin/settings/keys)
-- Tailnet: your tailnet name (e.g., `example.com` or `-` for personal)
-
-**Gotify** (`GOTIFY_URL`, `GOTIFY_TOKEN`)
-- URL: your Gotify server URL
-- Token: create an application in Gotify UI, copy its token
-
-**Linkding** (`LINKDING_URL`, `LINKDING_API_KEY`)
-- API key: Settings → REST API → API Token
-
-**Memos** (`MEMOS_URL`, `MEMOS_API_TOKEN`)
-- Token: Settings → My Account → API Tokens
-
-**ByteStash** (`BYTESTASH_URL`, `BYTESTASH_API_KEY`)
-- API key: ByteStash Settings → API
-
-**Paperless-ngx** (`PAPERLESS_URL`, `PAPERLESS_API_TOKEN`)
-- Token: Admin → Auth Tokens → Add token
-
-**Radicale** (`RADICALE_URL`, `RADICALE_USERNAME`, `RADICALE_PASSWORD`)
-- URL: `https://your-radicale-url`
-- Credentials: whatever you configured in Radicale
+For where to find credentials for each service, see `references/service-credentials-guide.md`.
 
 ### Step 3: Verify and offer health check
 
@@ -138,14 +102,20 @@ After collecting credentials, confirm:
 
 > "All set! I've saved credentials for: [list services]. Want me to run a health check to verify everything is reachable?"
 
-If yes, invoke `/homelab-core:health` (or tell them to run it manually).
+If yes, run the health check script directly:
+
+```bash
+bash ~/.claude-homelab/scripts/check-health.sh
+```
+
+Note: `/homelab-core:health` is a slash command and cannot be invoked from within a skill. Instruct the user to run it from a new Claude Code session, or use the script path above directly.
 
 ## Reconfiguration
 
 If the user already has an `.env` and just wants to update one service:
 - Ask which service
 - Ask for the new values
-- Update only those specific keys with `sed -i`
+- Update only those specific keys using the upsert pattern above
 - Don't touch anything else
 
 ## Security Rules
@@ -154,3 +124,7 @@ If the user already has an `.env` and just wants to update one service:
 - Never show the contents of `.env`
 - Always set `chmod 600 ~/.claude-homelab/.env` after any write
 - If the user accidentally pastes a credential in chat, acknowledge it, don't repeat it, and remind them credentials should only go into the `.env` file
+
+## Related Skills
+
+- **homelab-core:health** — run after setup to verify all configured services are reachable. Use `bash ~/.claude-homelab/scripts/check-health.sh` or invoke `/homelab-core:health` from a new Claude Code session.

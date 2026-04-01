@@ -1,18 +1,16 @@
 ---
-description: Research current MCP/plugin/runtime guidance for lab plugin work
+description: Research current plugin/MCP/runtime guidance for lab work
 argument-hint: <topic or target stack>
 allowed-tools: Read, Write, Bash, Glob, Grep, WebSearch, WebFetch, Task, Skill
 ---
 
 # Research Lab Plugin
 
-Use the `lab-research-specialist` skill and `rex-the-researcher` agent to gather current primary-source guidance for plugin work.
+Invoke the `lab-research-specialist` skill, then spawn `rex-the-researcher` to gather current primary-source guidance on `$ARGUMENTS`.
 
 ## Inputs
 
-Start from `$ARGUMENTS`.
-
-If the topic is vague, clarify the exact research target first. Examples:
+`$ARGUMENTS` is the research topic or target stack. If vague, clarify before spawning. Example valid topics:
 
 - TypeScript MCP server stack
 - latest Claude plugin manifest behavior
@@ -22,16 +20,16 @@ If the topic is vague, clarify the exact research target first. Examples:
 
 ## Workflow
 
-1. Read [skills/lab-research-specialist/SKILL.md](/home/jmagar/workspace/plugin-templates/skills/lab-research-specialist/SKILL.md).
-2. Spawn `rex-the-researcher`.
-3. When broad coverage is needed, have Rex split work into parallel tracks such as:
+1. Invoke the `lab-research-specialist` skill.
+2. Spawn `rex-the-researcher` with the topic.
+3. For broad coverage, direct Rex to split work into parallel tracks:
    - MCP protocol and transport
    - Claude Code plugin docs
    - Codex plugin docs
    - language SDK/runtime updates
    - adjacent Docker/auth/testing guidance
-4. Synthesize the findings into one report with:
-   - confirmed facts
+4. Synthesize findings into one report with:
+   - confirmed facts (primary sources cited)
    - changes from prior assumptions
    - implications for templates
    - implications for existing plugins
@@ -40,6 +38,6 @@ If the topic is vague, clarify the exact research target first. Examples:
 
 Write the result to:
 
-- `docs/research/<topic>-<timestamp>.md`
+- `docs/research/<topic>-<YYYYMMDD-HHMMSS>.md`
 
-Use primary sources wherever possible and mark inferences explicitly.
+Mark inferences explicitly. Primary sources take precedence over secondary.

@@ -6,22 +6,19 @@ allowed-tools: Read, Write, Edit, Bash, Glob, Grep, Task, Skill, WebSearch, WebF
 
 # Align Lab Plugin
 
-Use the `align-lab-plugin` skill and `ally-the-aligner` agent to bring a plugin to the canonical spec.
+Invoke the `align-lab-plugin` skill, then spawn `ally-the-aligner` to bring the plugin at `$ARGUMENTS` to the canonical spec.
 
 ## Inputs
 
-Treat `$ARGUMENTS` as the target plugin path.
-
-If no path is provided, ask for it.
+`$ARGUMENTS` is the target plugin path. Ask for it if absent.
 
 ## Workflow
 
-1. Read [skills/align-lab-plugin/SKILL.md](/home/jmagar/workspace/plugin-templates/skills/align-lab-plugin/SKILL.md).
-2. Spawn `ally-the-aligner`.
-3. Tell Ally to:
-   - start from an existing review report if one exists
-   - otherwise perform a quick spec audit first
-   - dispatch:
+1. Invoke the `align-lab-plugin` skill.
+2. Spawn `ally-the-aligner` with the plugin path.
+3. Direct Ally to:
+   - start from an existing review report if one exists in `docs/reports/plugin-reviews/`
+   - otherwise dispatch in parallel:
      - one `roddy-reviewer` for structural/spec drift
      - one `rex-the-researcher` for current runtime/schema drift
      - one `ster-the-scaffolder` for template parity comparison
@@ -32,11 +29,6 @@ If no path is provided, ask for it.
 
 Write the alignment summary to:
 
-- `docs/reports/plugin-alignments/<timestamp>.md`
+- `docs/reports/plugin-alignments/<YYYYMMDD-HHMMSS>.md`
 
-It must include:
-
-- changed files
-- preserved deviations
-- verification commands
-- follow-up work
+Include: changed files, preserved deviations, verification commands, and follow-up work.

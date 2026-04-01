@@ -6,35 +6,34 @@ allowed-tools: Read, Write, Edit, Bash, Glob, Grep, WebSearch, WebFetch, AskUser
 
 # Pipeline Lab Plugin
 
-Use the `pipeline-lab-plugin` skill and `petra-the-pipeliner` agent to implement or update a plugin's CI/CD pipeline.
+Invoke the `pipeline-lab-plugin` skill, then spawn `petra-the-pipeliner` to implement or update the pipeline at `$ARGUMENTS`.
 
 ## Inputs
 
-Start from `$ARGUMENTS`.
-
-Parse as: `<plugin-path> [mode]`
+Parse `$ARGUMENTS` as: `<plugin-path> [mode]`
 
 - `mode` defaults to `create` if not specified
-- For `update`, inspect the existing `.github/workflows/ci.yaml` first
+- For `update`, read the existing `.github/workflows/` files before spawning
 
-If the plugin path is missing, ask before proceeding.
+Ask for the plugin path if absent.
 
 ## Workflow
 
-1. Read [skills/pipeline-lab-plugin/SKILL.md](/home/jmagar/workspace/plugin-templates/skills/pipeline-lab-plugin/SKILL.md).
-2. Spawn `petra-the-pipeliner`.
-3. Tell Petra to:
+1. Invoke the `pipeline-lab-plugin` skill.
+2. Spawn `petra-the-pipeliner` with the plugin path and mode.
+3. Direct Petra to:
    - inspect the plugin's language, package manifest, and existing CI config
-   - for `create`: gather registry, trigger strategy, and secret requirements, then produce the full pipeline
-   - for `review`: audit existing pipeline against canonical stage order and produce a findings list
+   - for `create`: gather registry, trigger strategy, and secret requirements, then produce all four workflow files
+   - for `review`: audit each of the four workflow files against canonical shape; produce a findings list organized by file
    - for `update`: make targeted changes and keep Justfile targets in sync
    - dispatch a `rex-the-researcher` worker to confirm current GitHub Action versions if needed
 
 ## Required Output
 
-Petra should return:
-
-- `.github/workflows/ci.yaml`
-- relevant Justfile targets (`lint`, `type-check`, `test`, `build`, `push`)
-- required secrets list with descriptions
-- any assumptions about the registry or live test environment
+- `.github/workflows/ci.yaml` — lint → type-check → test gate with live test skip guard
+- `.github/workflows/publish-image.yaml` — image build + push, full tag strategy, GHA cache
+- `.github/workflows/release-on-main.yaml` — manifest version → tag check → tag + GitHub release
+- Pre-commit config — `.pre-commit-config.yaml` (Python) or `lefthook.yml` (Rust/TypeScript)
+- Justfile targets — `lint`, `type-check`, `test`, `test-live`, `build`, `push`
+- Required secrets list with descriptions
+- Any assumptions about the registry or live test environment
