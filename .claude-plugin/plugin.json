@@ -1,5 +1,5 @@
 {
-  "name": "plugin-templates",
+  "name": "plugin-lab",
   "description": "Agents, commands, skills, and scripts for scaffolding, reviewing, aligning, and deploying homelab MCP server plugins. Includes canonical Python, TypeScript, and Rust server templates.",
   "version": "1.0.0",
   "author_url": "https://github.com/jmagar",
@@ -7,7 +7,7 @@
     "name": "jmagar",
     "email": "jmagar@users.noreply.github.com"
   },
-  "homepage": "https://github.com/jmagar/plugin-templates",
-  "repository": "https://github.com/jmagar/plugin-templates",
+  "homepage": "https://github.com/jmagar/plugin-lab",
+  "repository": "https://github.com/jmagar/plugin-lab",
   "license": "MIT"
 }

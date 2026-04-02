@@ -1,11 +1,3 @@
 {
-  "mcpServers": {
-    "my-plugin-mcp": {
-      "type": "http",
-      "url": "${user_config.my_service_mcp_url}",
-      "headers": {
-        "Authorization": "Bearer ${user_config.my_service_mcp_token}"
-      }
-    }
-  }
+  "mcpServers": {}
 }
