@@ -92,7 +92,6 @@ coverage/
 *.tsbuildinfo
 .eslintcache
 npm-debug.log*
-package-lock.json
 
 # ── Rust ─────────────────────────────────────────────────────────────────────
 /target/
