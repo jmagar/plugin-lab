@@ -30,7 +30,7 @@ plugin-templates/
 
 The template structure is intentionally split:
 
-- **Repo root** — shared plugin-contract assets used by every plugin regardless of language: manifests, hooks, scripts, agents, commands, skills, `.env.example`, `docker-compose.yaml`, `my-service.subdomain.conf`
+- **Repo root** — shared plugin-contract assets used by every plugin regardless of language: manifests, hooks, scripts, agents, commands, skills, `.env.example`, `docker-compose.yaml`
 - **`py/`, `ts/`, `rs/`** — language-specific runtime and toolchain assets: package manifests, source modules, Dockerfiles, Justfiles, CI workflows, test frameworks
 
 If a file exists identically in all three language directories, it belongs at repo root. Language directories are not a fourth template — they are the specific layer only.

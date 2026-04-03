@@ -499,13 +499,7 @@ render_template \
   "${TEMPLATE_LANG_ROOT}/docker-compose.yaml" \
   "${OUT_DIR}/docker-compose.yaml"
 
-# ── 25. <service>.subdomain.conf ────────────────────────────────────────────
-
-render_template \
-  "${TEMPLATE_SHARED_ROOT}/my-service.subdomain.conf" \
-  "${OUT_DIR}/${SERVICE}.subdomain.conf"
-
-# ── 26. tests/test_live.sh ──────────────────────────────────────────────────
+# ── 25. tests/test_live.sh ──────────────────────────────────────────────────
 
 render_template \
   "${TEMPLATE_LANG_ROOT}/tests/test_live.sh" \
@@ -659,5 +653,4 @@ echo "  7. Implement your server in ${MODULE_NAME}/"
 echo "  8. git init && git add -A && git commit -m 'feat: initial ${PLUGIN_NAME} scaffold'"
 echo "  9. Validate: claude plugin validate ."
 echo " 10. Test: just test-live"
-echo " 11. Update ${SERVICE}.subdomain.conf with your Tailscale IPs and domain"
 echo
