@@ -33,3 +33,23 @@ If you move or rename template files here, update the scaffold script and any co
 - no placeholder-only paths unless the scaffold actually consumes them
 - root docs should describe the repo, not impersonate a language template
 - per-language `README.md` and `CLAUDE.md` should describe that language layer only
+
+
+## Version Bumping
+
+**Every feature branch push MUST bump the version in ALL version-bearing files.**
+
+Bump type is determined by the commit message prefix:
+- `feat!:` or `BREAKING CHANGE` → **major** (X+1.0.0)
+- `feat` or `feat(...)` → **minor** (X.Y+1.0)
+- Everything else (`fix`, `chore`, `refactor`, `test`, `docs`, etc.) → **patch** (X.Y.Z+1)
+
+**Files to update (if they exist in this repo):**
+- `Cargo.toml` — `version = "X.Y.Z"` in `[package]`
+- `package.json` — `"version": "X.Y.Z"`
+- `pyproject.toml` — `version = "X.Y.Z"` in `[project]`
+- `.claude-plugin/plugin.json` — `"version": "X.Y.Z"`
+- `.codex-plugin/plugin.json` — `"version": "X.Y.Z"`
+- `gemini-extension.json` — `"version": "X.Y.Z"`
+
+All files MUST have the same version. Never bump only one file.
