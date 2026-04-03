@@ -17,7 +17,7 @@ logs/*
 .claude/*.local.md
 .claude/worktrees/
 .omc/
-.lavra/memory/session-state.md
+.lavra/
 .beads/
 .serena/
 .worktrees
@@ -39,7 +39,7 @@ docs/sessions/
 docs/reports/
 docs/research/
 docs/superpowers/
-
+.superpowers/
 # Python
 .venv/
 __pycache__/
