@@ -256,6 +256,8 @@ my-service-mcp/
 │   └── screenshots/             # Install-surface screenshots
 ├── scripts/
 │   └──                          # Useful scripts for the plugin
+├── bin/
+│   └──                          # Executables that should be added to PATH
 ├── commands/                    # Slash commands (optional)
 │   └── <command>.md             # Command definition with frontmatter
 ├── docs/                        # Reference docs, API endpoints, troubleshooting

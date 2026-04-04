@@ -13,6 +13,9 @@
 # - No files are hardcoded.
 # - Local edits to mirrored docs are discarded on update.
 # - When a mirrored doc changes, a sidecar diff is appended to <file>.diff.
+# - Refreshed mirrors get a timestamp line under the source URL so readers can
+#   see when the local copy was last rewritten.
+# - This covers mirrored docs in agents/, hooks/, skills/, .claude-plugin/, .codex-plugin/, and template copies under templates/. 
 
 set -euo pipefail
 
@@ -21,6 +24,8 @@ usage() {
 Usage: update-doc-mirrors.sh [root]
 
 Refresh all mirrored markdown docs under [root] (default: current directory).
+
+This includes live and template mirrors under agents/, hooks/, skills/, .claude-plugin/, and .codex-plugin/
 
 A mirrored doc is any .md file whose first line is:
   # https://.../something.md
@@ -69,8 +74,10 @@ while IFS= read -r -d '' file; do
     fetched_tmp="$(mktemp)"
     assembled_tmp="$(mktemp)"
     if wget -q -O "$fetched_tmp" "$url"; then
+      updated_at="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
       {
         printf '# %s\n' "$url"
+        printf '<!-- Updated: %s -->\n' "$updated_at"
         cat "$fetched_tmp"
       } > "$assembled_tmp"
 

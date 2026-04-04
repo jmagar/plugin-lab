@@ -1,4 +1,5 @@
 # https://developers.openai.com/codex/plugins.md
+<!-- Updated: 2026-04-03T23:36:39Z -->
 # Plugins
 
 ## Overview

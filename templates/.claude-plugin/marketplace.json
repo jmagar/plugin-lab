@@ -1,0 +1,25 @@
+{
+  "name": "my-marketplace",
+  "owner": {
+    "name": "your-org",
+    "email": "maintainers@example.com"
+  },
+  "metadata": {
+    "description": "Private Claude Code marketplace for MCP-backed plugins.",
+    "version": "0.1.0"
+  },
+  "plugins": [
+    {
+      "name": "my-plugin-mcp",
+      "source": {
+        "source": "github",
+        "repo": "your-org/my-plugin-mcp"
+      },
+      "description": "My Plugin MCP integration.",
+      "version": "0.1.0",
+      "category": "utilities",
+      "tags": ["mcp", "my-plugin"],
+      "homepage": "https://github.com/your-org/my-plugin-mcp"
+    }
+  ]
+}

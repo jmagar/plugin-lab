@@ -1,4 +1,5 @@
 # https://code.claude.com/docs/en/channels.md
+<!-- Updated: 2026-04-03T23:36:40Z -->
 > ## Documentation Index
 > Fetch the complete documentation index at: https://code.claude.com/docs/llms.txt
 > Use this file to discover all available pages before exploring further.

@@ -1,4 +1,5 @@
 # https://code.claude.com/docs/en/plugins-reference.md
+<!-- Updated: 2026-04-03T23:36:41Z -->
 > ## Documentation Index
 > Fetch the complete documentation index at: https://code.claude.com/docs/llms.txt
 > Use this file to discover all available pages before exploring further.
@@ -115,6 +116,7 @@ Plugin hooks respond to the same lifecycle events as [user-defined hooks](/en/ho
 | `UserPromptSubmit`   | When you submit a prompt, before Claude processes it                                                                                                   |
 | `PreToolUse`         | Before a tool call executes. Can block it                                                                                                              |
 | `PermissionRequest`  | When a permission dialog appears                                                                                                                       |
+| `PermissionDenied`   | When a tool call is denied by the auto mode classifier. Return `{retry: true}` to tell the model it may retry the denied tool call                     |
 | `PostToolUse`        | After a tool call succeeds                                                                                                                             |
 | `PostToolUseFailure` | After a tool call fails                                                                                                                                |
 | `Notification`       | When Claude Code sends a notification                                                                                                                  |
@@ -545,6 +547,8 @@ enterprise-plugin/
 ├── hooks/                    # Hook configurations
 │   ├── hooks.json           # Main hook config
 │   └── security-hooks.json  # Additional hooks
+├── bin/                      # Plugin executables added to PATH
+│   └── my-tool               # Invokable as bare command in Bash tool
 ├── settings.json            # Default settings for the plugin
 ├── .mcp.json                # MCP server definitions
 ├── .lsp.json                # LSP server configurations
@@ -562,17 +566,18 @@ enterprise-plugin/
 
 ### File locations reference
 
-| Component         | Default Location             | Purpose                                                                                                                   |
-| :---------------- | :--------------------------- | :------------------------------------------------------------------------------------------------------------------------ |
-| **Manifest**      | `.claude-plugin/plugin.json` | Plugin metadata and configuration (optional)                                                                              |
-| **Commands**      | `commands/`                  | Skill Markdown files (legacy; use `skills/` for new skills)                                                               |
-| **Agents**        | `agents/`                    | Subagent Markdown files                                                                                                   |
-| **Skills**        | `skills/`                    | Skills with `<name>/SKILL.md` structure                                                                                   |
-| **Output styles** | `output-styles/`             | Output style definitions                                                                                                  |
-| **Hooks**         | `hooks/hooks.json`           | Hook configuration                                                                                                        |
-| **MCP servers**   | `.mcp.json`                  | MCP server definitions                                                                                                    |
-| **LSP servers**   | `.lsp.json`                  | Language server configurations                                                                                            |
-| **Settings**      | `settings.json`              | Default configuration applied when the plugin is enabled. Only [`agent`](/en/sub-agents) settings are currently supported |
+| Component         | Default Location             | Purpose                                                                                                                                  |
+| :---------------- | :--------------------------- | :--------------------------------------------------------------------------------------------------------------------------------------- |
+| **Manifest**      | `.claude-plugin/plugin.json` | Plugin metadata and configuration (optional)                                                                                             |
+| **Commands**      | `commands/`                  | Skill Markdown files (legacy; use `skills/` for new skills)                                                                              |
+| **Agents**        | `agents/`                    | Subagent Markdown files                                                                                                                  |
+| **Skills**        | `skills/`                    | Skills with `<name>/SKILL.md` structure                                                                                                  |
+| **Output styles** | `output-styles/`             | Output style definitions                                                                                                                 |
+| **Hooks**         | `hooks/hooks.json`           | Hook configuration                                                                                                                       |
+| **MCP servers**   | `.mcp.json`                  | MCP server definitions                                                                                                                   |
+| **LSP servers**   | `.lsp.json`                  | Language server configurations                                                                                                           |
+| **Executables**   | `bin/`                       | Executables added to the Bash tool's `PATH`. Files here are invokable as bare commands in any Bash tool call while the plugin is enabled |
+| **Settings**      | `settings.json`              | Default configuration applied when the plugin is enabled. Only [`agent`](/en/sub-agents) settings are currently supported                |
 
 ***
 
@@ -599,7 +604,7 @@ claude plugin install <plugin> [options]
 | `-s, --scope <scope>` | Installation scope: `user`, `project`, or `local` | `user`  |
 | `-h, --help`          | Display help for command                          |         |
 
-Scope determines which settings file the installed plugin is added to. For example, --scope project writes to `enabledPlugins` in .claude/settings.json, making the plugin available to everyone who clones the project repository.
+Scope determines which settings file the installed plugin is added to. For example, `--scope project` writes to `enabledPlugins` in .claude/settings.json, making the plugin available to everyone who clones the project repository.
 
 **Examples:**
 

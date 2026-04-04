@@ -1,4 +1,5 @@
 # https://developers.openai.com/codex/plugins/build.md
+<!-- Updated: 2026-04-03T23:36:38Z -->
 # Build plugins
 
 This page is for plugin authors. If you want to browse, install, and use
