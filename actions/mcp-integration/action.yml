@@ -1,0 +1,66 @@
+name: MCP Integration Test
+description: >
+  Health-poll an MCP server then run mcporter tests against it.
+  Handles the Accept header quirk (406 without it), poll timeout, and teardown logging.
+
+inputs:
+  url:
+    description: "MCP server base URL (e.g. http://localhost:8001)"
+    required: true
+  token:
+    description: "Bearer token for the MCP endpoint"
+    required: true
+  test-script:
+    description: "Path to test-tools.sh relative to the repo root"
+    required: true
+    default: "tests/test-tools.sh"
+  service-name:
+    description: "Human-readable label for job output"
+    required: true
+  log-file:
+    description: "Path to server log file (optional — printed on failure)"
+    required: false
+    default: ""
+
+runs:
+  using: composite
+  steps:
+    - name: Wait for ${{ inputs.service-name }} health
+      shell: bash
+      run: |
+        url="${{ inputs.url }}"
+        echo "Polling $url/health ..."
+        for i in $(seq 1 30); do
+          if curl -sf \
+              -H 'Accept: application/json, text/event-stream' \
+              "$url/health" > /dev/null 2>&1; then
+            echo "  ✓ ${{ inputs.service-name }} is healthy (attempt $i)"
+            exit 0
+          fi
+          echo "  … attempt $i/30, retrying in 1s"
+          sleep 1
+        done
+        echo "ERROR: ${{ inputs.service-name }} did not become healthy after 30s" >&2
+        exit 1
+
+    - name: Run mcporter tests — ${{ inputs.service-name }}
+      shell: bash
+      env:
+        MCP_URL: ${{ inputs.url }}
+        MCP_TOKEN: ${{ inputs.token }}
+      run: |
+        bash "${{ inputs.test-script }}" \
+          --url "${{ inputs.url }}" \
+          --token "${{ inputs.token }}"
+
+    - name: Dump server log on failure
+      if: failure() && inputs.log-file != ''
+      shell: bash
+      run: |
+        log="${{ inputs.log-file }}"
+        if [[ -f "$log" ]]; then
+          echo "──── last 50 lines of $log ────"
+          tail -50 "$log"
+        else
+          echo "(log file $log not found)"
+        fi
