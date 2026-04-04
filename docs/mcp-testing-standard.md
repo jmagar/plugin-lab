@@ -209,22 +209,22 @@ run "help"           --tool SERVICE --args '{"action":"help"}'
 
 ## GitHub Secrets — Canonical Names
 
-Add these secrets to each repo via `just push-secrets` (from claude-homelab).
+Add upstream credentials to each repo via `just push-secrets` (from claude-homelab).
+
+**MCP bearer tokens are NOT stored as secrets.** CI controls both the server and the client, so it generates a throwaway token (`ci-integration-token`) at runtime and passes it to both sides. Only the upstream service credentials are real secrets.
 
 | Repo | Secrets |
 |------|---------|
-| overseerr-mcp | `OVERSEERR_MCP_TOKEN`, `OVERSEERR_URL`, `OVERSEERR_API_KEY` |
-| gotify-mcp | `GOTIFY_MCP_TOKEN`, `GOTIFY_URL`, `GOTIFY_APP_TOKEN` |
-| unifi-mcp | `UNIFI_MCP_TOKEN`, `UNIFI_URL`, `UNIFI_USERNAME`, `UNIFI_PASSWORD` |
-| swag-mcp | `SWAG_MCP_TOKEN` |
-| unraid-mcp | `UNRAID_MCP_TOKEN`, `UNRAID_API_URL`, `UNRAID_API_KEY` |
-| synapse-mcp | `SYNAPSE_MCP_TOKEN`, `SYNAPSE_MCP_URL`, `SYNAPSE_HOSTS_CONFIG` |
-| arcane-mcp | `ARCANE_MCP_TOKEN`, `ARCANE_API_URL`, `ARCANE_API_KEY` |
-| syslog-mcp | `SYSLOG_MCP_TOKEN` |
+| overseerr-mcp | `OVERSEERR_URL`, `OVERSEERR_API_KEY` |
+| gotify-mcp | `GOTIFY_URL`, `GOTIFY_APP_TOKEN` |
+| unifi-mcp | `UNIFI_URL`, `UNIFI_USERNAME`, `UNIFI_PASSWORD` |
+| swag-mcp | *(none — uses fixture files)* |
+| unraid-mcp | `UNRAID_API_URL`, `UNRAID_API_KEY` |
+| synapse-mcp | `SYNAPSE_MCP_URL`, `SYNAPSE_HOSTS_CONFIG` |
+| arcane-mcp | `ARCANE_API_URL`, `ARCANE_API_KEY` |
+| syslog-mcp | *(none — it IS the service)* |
 
-Secret naming convention:
-- `${SERVICE}_MCP_TOKEN` — the MCP server's own bearer token
-- Upstream credentials use the server's own env var names (e.g. `OVERSEERR_URL`, not `OVERSEERR_MCP_URL`)
+Upstream credentials use the server's own env var names (e.g. `OVERSEERR_URL`, not `OVERSEERR_MCP_URL`).
 
 ---
 
