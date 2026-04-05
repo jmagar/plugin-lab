@@ -1,6 +1,6 @@
 {
   "name": "plugin-lab",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Agents, skills, and templates for scaffolding, reviewing, aligning, and deploying homelab MCP server plugins. Includes canonical Python, TypeScript, and Rust server templates.",
   "contextFileName": "GEMINI.md"
 }
