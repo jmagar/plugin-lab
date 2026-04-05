@@ -6,6 +6,7 @@
 # ── Runtime artifacts ────────────────────────────────────────────────────────
 logs/
 backups/
+data/
 *.log
 *.pid
 *.bak
