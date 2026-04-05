@@ -98,3 +98,6 @@ npm-debug.log*
 **/*.rs.bk
 *.profraw
 *.profdata
+
+# Personal local cheatsheet (never commit)
+CLAUDE.md.local
