@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.2] - 2026-04-04
+
+### Added
+- **docs templates**: Root-level documentation templates (README, SETUP, CONFIG, CHECKLIST, GUARDRAILS, INVENTORY) for plugin scaffolding
+- **docs CLAUDE.md**: Updated with directory index, placeholder conventions, scaffold markers, and style guide
+
 ## [1.0.1] - 2026-04-03
 
 ### Fixed
