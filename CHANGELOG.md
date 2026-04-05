@@ -22,6 +22,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - **docs templates**: Root-level documentation templates (README, SETUP, CONFIG, CHECKLIST, GUARDRAILS, INVENTORY) for plugin scaffolding
 - **docs CLAUDE.md**: Updated with directory index, placeholder conventions, scaffold markers, and style guide
+## [1.0.3] - 2026-04-04
+
+### Added
+- **Repo doc templates**: CLAUDE.md (index), REPO.md (directory structure), RECIPES.md (Justfile recipes), SCRIPTS.md (maintenance/hook/test scripts), RULES.md (git workflow, versioning, code standards), MEMORY.md (Claude Code memory system).
+- **Stack doc templates**: CLAUDE.md (index), ARCH.md (MCP server architecture and data flow), TECH.md (language/framework/tooling choices), PRE-REQS.md (prerequisites per language).
+- **Upstream doc template**: CLAUDE.md (upstream service integration patterns, client wrapper, error mapping).
+
 ## [1.0.2] - 2026-04-04
 
 ### Added
