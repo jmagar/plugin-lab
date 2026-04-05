@@ -43,7 +43,6 @@ Marketplace manifests live in the homelab-core repo (`claude-homelab`), not in i
 | `media` | Media management and requests | overseerr, plex, radarr, sonarr |
 | `utilities` | Notifications, bookmarks, notes | gotify, linkding, memos |
 | `dev-tools` | Development and scaffolding | plugin-lab |
-| `research` | Experimental and AI research | axon |
 
 ## Bundled vs external plugins
 

@@ -346,7 +346,6 @@ After scaffolding a new plugin, run `/review-lab-plugin` on the output to catch 
 | [synapse-mcp](https://github.com/jmagar/synapse-mcp) | infrastructure | Docker management (Flux) and SSH remote operations (Scout) across homelab hosts. |
 | [arcane-mcp](https://github.com/jmagar/arcane-mcp) | infrastructure | Manage Docker environments, containers, images, volumes, networks, and GitOps via Arcane. |
 | [syslog-mcp](https://github.com/jmagar/syslog-mcp) | infrastructure | Receive, index, and search syslog streams from all homelab hosts via SQLite FTS5. |
-| [axon](https://github.com/jmagar/axon) | research | Self-hosted web crawl, ingest, embed, and RAG pipeline with MCP tooling. |
 
 ## License
 

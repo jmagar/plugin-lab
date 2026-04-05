@@ -2,7 +2,7 @@
 
 This guide documents the exact structure, conventions, and standards for all MCP-server-backed
 Claude Code plugins in this ecosystem (`../workspace/gotify-mcp`, `../workspace/overseerr-mcp`, `../workspace/unifi-mcp`, `../workspace/swag-mcp`,
-`../workspace/unraid-mcp`, `../workspace/synapse-mcp`, `../workspace/syslog-mcp`, `../workspace/axon`, `../workspace/arcane-mcp`, and any future additions).
+`../workspace/unraid-mcp`, `../workspace/synapse-mcp`, `../workspace/syslog-mcp`, `../workspace/arcane-mcp`, and any future additions).
 
 ---
 
@@ -3402,7 +3402,6 @@ Plugins shipped inside this repo use local path source:
 | `syslog-mcp` | `jmagar/syslog-mcp` | Rust | observability | 3100 | `syslog_mcp_token` |
 | `unifi-mcp` | `jmagar/unifi-mcp` | Python | infrastructure | 8001 | `unifi_mcp_token` |
 | `unraid-mcp` | `jmagar/unraid-mcp` | Python | infrastructure | 6970 | `unraid_mcp_token` |
-| `axon` | `jmagar/axon` | Rust | knowledge | 3000 | `axon_mcp_token` |
 
 ---
 
