@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.4] - 2026-04-04
+
+### Added
+- **MCP core server docs**: 7 scaffold templates (CLAUDE, TOOLS, RESOURCES, SCHEMA, ENV, AUTH, TRANSPORT) in `templates/docs/mcp/` covering tool dispatch, resource URIs, schema generation, environment variables, authentication, and transport methods
+
+## [1.0.3] - 2026-04-04
+
+### Added
+- **MCP operations docs**: 7 scaffold templates (DEPLOY, LOGS, TESTS, MCPORTER, CICD, PRE-COMMIT, PUBLISH) in `templates/docs/mcp/`
+
 ## [1.0.2] - 2026-04-04
 
 ### Added
