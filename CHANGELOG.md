@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.5] - 2026-04-04
+
+### Added
+- **Real documentation**: 22 docs files covering plugin surfaces (agents, skills, commands, hooks, manifests, marketplaces), repository structure (scripts, rules, recipes, memory), and technology stack (architecture, tech choices, prerequisites) generated from actual codebase content
+
 ## [1.0.4] - 2026-04-04
 
 ### Added
