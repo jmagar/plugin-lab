@@ -10,7 +10,7 @@ Structure and conventions for plugin manifest files.
 | Codex | `.codex-plugin/plugin.json` | yes |
 | Gemini | `gemini-extension.json` | optional |
 
-All manifests must declare the same version. Validate with `just check-contract` or `scripts/lint-plugin.sh`.
+All manifests must declare the same version. Validate with `just check-version-sync`.
 
 ## Claude / Codex manifest
 
@@ -148,14 +148,9 @@ Run `just check-contract` to verify all versions match.
 ## Validation
 
 ```bash
-# Lint plugin structure and version sync
-just check-contract
-
-# Or run directly
-scripts/lint-plugin.sh
+# Validate version sync
+just check-version-sync
 ```
-
-The linter checks: required fields present, versions in sync, userConfig schema valid, mcpServers well-formed.
 
 ## Cross-references
 

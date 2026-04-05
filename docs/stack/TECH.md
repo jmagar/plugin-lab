@@ -89,7 +89,6 @@ Registry: GHCR (ghcr.io). Tag strategy: branch ref, git SHA, semver on tag push,
 | Unit tests | pytest / vitest / cargo test | Handler logic, dispatch, param validation |
 | Live tests | Shell scripts + mcporter | End-to-end against running service |
 | Contract tests | mcporter | MCP tool schema, transport, auth |
-| Lint | lint-plugin.sh | Plugin structure, manifests, hygiene |
 | Security | check-docker-security.sh, check-no-baked-env.sh | Docker and credential safety |
 
 Live tests are gated behind `SKIP_LIVE_TESTS` in CI and only run locally or in environments with service access.

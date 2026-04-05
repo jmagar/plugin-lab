@@ -14,18 +14,6 @@ bash scripts/scaffold-plugin.sh <service-name> <language> [--port PORT]
 
 Reads shared assets from `templates/` and language-specific assets from `templates/py/`, `templates/ts/`, or `templates/rs/`. Performs global find-and-replace on placeholder names (`my-plugin`, `my_plugin`, `MY_SERVICE`, etc.). The `PLUGIN_TEMPLATES_ROOT` env var can override the template location.
 
-### lint-plugin.sh
-
-**Purpose:** Comprehensive plugin linter validating 16 check categories.
-
-```bash
-bash scripts/lint-plugin.sh [project-dir]
-```
-
-Checks: manifest existence and fields, userConfig attributes, Codex displayName, version sync, env var naming, domain+help tool presence, required files, symlink conventions, skill files, hook executability, Docker Compose patterns, .env not tracked, required directories, asset files.
-
-Exit codes: 0 (all required checks pass), 1 (one or more failures).
-
 ### check-version-sync.sh
 
 **Purpose:** Verify all version-bearing files have the same version string.

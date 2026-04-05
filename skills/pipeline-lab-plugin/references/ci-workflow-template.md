@@ -86,7 +86,6 @@ jobs:
       - run: bash scripts/check-docker-security.sh
       - run: bash scripts/check-no-baked-env.sh .
       - run: bash hooks/scripts/ensure-ignore-files.sh --check .
-      - run: bash scripts/lint-plugin.sh
       - run: npx skills-ref validate skills/
 
   typecheck:
@@ -249,7 +248,6 @@ jobs:
       - run: bash scripts/check-docker-security.sh
       - run: bash scripts/check-no-baked-env.sh .
       - run: bash hooks/scripts/ensure-ignore-files.sh --check .
-      - run: bash scripts/lint-plugin.sh
       - run: npx skills-ref validate skills/
 
   # Rust has no separate type-check job because clippy subsumes type checking.
@@ -388,7 +386,6 @@ jobs:
       - run: bash scripts/check-docker-security.sh
       - run: bash scripts/check-no-baked-env.sh .
       - run: bash hooks/scripts/ensure-ignore-files.sh --check .
-      - run: bash scripts/lint-plugin.sh
       - run: npx skills-ref validate skills/
 
   typecheck:

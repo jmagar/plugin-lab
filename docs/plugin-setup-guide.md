@@ -2781,10 +2781,6 @@ setup:
 gen-token:
     @openssl rand -hex 32
 
-# Check contract drift between schema, help tool, and skill docs
-check-contract:
-    bash scripts/lint-plugin.sh
-
 # ── Cleanup ──────────────────────────────────────────────────────────────────
 
 # Remove build artifacts and caches
@@ -3728,12 +3724,6 @@ remembering the guide:
 - `templates/plugin/`
   - Contains the canonical starting point for new plugins
   - Defines the required tool pair, manifest shape, hooks, env naming, and live-test skeleton
-- `scripts/lint-plugin.sh`
-  - Fails on generic env vars like `MCP_BEARER_TOKEN`
-  - Validates required manifest fields and `.claude-plugin` / `.codex-plugin` parity
-  - Verifies the required tool pair (`my_service`, `my_service_help`)
-  - Verifies destructive `confirm` support is documented and tested
-  - Verifies list responses include pagination metadata
   - Verifies response-shape rules for list and non-list actions
   - Verifies schema/help/skill-doc contract drift
 
@@ -3874,7 +3864,6 @@ scratch — these tools enforce all the conventions in this guide.
 - [ ] **`scripts/check-outdated-deps.sh`** — run periodically to check for outdated packages
 - [ ] **`tests/test_live.sh`** — mcporter-based, tests required tool pair, help output contract, auth rejection, destructive confirmation gate, and pagination metadata
 - [ ] **TDD + verification discipline** — start from a failing test/check, implement, then prove behavior with live or integration evidence
-- [ ] **`scripts/lint-plugin.sh`** — validates naming, manifests, response shapes, and contract drift
 - [ ] **`templates/plugin/`** — canonical scaffold source for new plugins
 
 ### Publish

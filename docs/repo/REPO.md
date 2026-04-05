@@ -118,7 +118,6 @@ plugin-lab/
       codex/
   scripts/
     scaffold-plugin.sh    Generate new plugin from templates
-    lint-plugin.sh        Comprehensive plugin linter
     check-version-sync.sh Version sync validator
     ensure-ignore-files.sh Ignore file enforcer
     check-docker-security.sh Docker security audit

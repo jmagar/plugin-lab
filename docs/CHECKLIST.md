@@ -44,7 +44,6 @@ Files to check:
 - [ ] `.github/workflows/publish-image.yaml` builds and pushes to GHCR
 - [ ] `.github/workflows/release-on-main.yaml` creates tags and GitHub releases
 - [ ] Live tests have a skip guard (`SKIP_LIVE_TESTS=1`)
-- [ ] Pre-commit or lefthook config runs `scripts/lint-plugin.sh`
 
 ## Plugin Surfaces
 
@@ -60,9 +59,6 @@ Files to check:
 ```bash
 # Version sync
 bash scripts/check-version-sync.sh
-
-# Plugin lint (comprehensive)
-bash scripts/lint-plugin.sh
 
 # Ignore file coverage
 bash scripts/ensure-ignore-files.sh --check

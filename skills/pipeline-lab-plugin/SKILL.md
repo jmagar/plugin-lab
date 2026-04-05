@@ -34,7 +34,6 @@ Runs on push to `main` and `workflow_dispatch`. Workflow:
 4. Cuts a GitHub release with auto-generated release notes (`softprops/action-gh-release@v2`, `generate_release_notes: true`)
 
 ### 4. Pre-commit / Lefthook — Local Dev Gate
-Runs `scripts/lint-plugin.sh` before every commit:
 - **Python**: `.pre-commit-config.yaml` (uses `pre-commit` framework, `language: system`)
 - **Rust / TypeScript**: `lefthook.yml` (runs in parallel mode)
 
@@ -78,7 +77,7 @@ Produce all four files plus Justfile targets:
 1. **`.github/workflows/ci.yaml`** — lint → type-check → test gate with live test skip guard
 2. **`.github/workflows/publish-image.yaml`** — image build + push with full tag strategy and GHA cache
 3. **`.github/workflows/release-on-main.yaml`** — manifest version read → tag existence check → tag creation → GitHub release
-4. **Pre-commit config** — `.pre-commit-config.yaml` (Python) or `lefthook.yml` (Rust/TypeScript) running `scripts/lint-plugin.sh`
+4. **Pre-commit config** — `.pre-commit-config.yaml` (Python) or `lefthook.yml` (Rust/TypeScript)
 5. **Justfile targets** — `lint`, `type-check`, `test`, `test-live`, `build`, `push`, `release` that mirror each CI step locally
 6. **Required secrets list** — write to both `README.md` (human-facing) and `docs/secrets.md` (machine-readable)
 
@@ -194,7 +193,6 @@ Check for all four workflow files. Common drift patterns:
 
 **Pre-commit / Lefthook:**
 - missing entirely — no local dev quality gate
-- `lint-plugin.sh` path wrong or script not executable
 - lefthook not set to `parallel: true` (slower than it needs to be)
 
 **Justfile:**

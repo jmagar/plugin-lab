@@ -65,7 +65,7 @@ Service-specific env vars use a consistent prefix:
 <SERVICE>_MCP_LOG_LEVEL -- Logging level
 ```
 
-Never use generic, unprefixed names (e.g., `API_KEY`, `PORT`). The `lint-plugin.sh` script checks for this.
+Never use generic, unprefixed names (e.g., `API_KEY`, `PORT`).
 
 ### userConfig to .env Sync
 

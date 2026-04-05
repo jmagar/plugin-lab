@@ -45,7 +45,6 @@ Complete inventory of all components in plugin-lab v1.0.5.
 | Script | Purpose |
 | --- | --- |
 | `scripts/scaffold-plugin.sh` | Generate a new plugin from canonical templates |
-| `scripts/lint-plugin.sh` | Comprehensive plugin linter (16 check categories) |
 | `scripts/check-version-sync.sh` | Verify all version-bearing files match |
 | `scripts/ensure-ignore-files.sh` | Ensure .gitignore/.dockerignore have required patterns |
 | `scripts/check-docker-security.sh` | Audit Docker config for security issues |

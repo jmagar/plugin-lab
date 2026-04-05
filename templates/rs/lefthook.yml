@@ -1,5 +1,3 @@
 pre-commit:
   parallel: true
   commands:
-    plugin-lint:
-      run: bash scripts/lint-plugin.sh

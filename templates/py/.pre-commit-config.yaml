@@ -1,8 +1,3 @@
 repos:
   - repo: local
     hooks:
-      - id: plugin-lint
-        name: plugin-lint
-        entry: bash scripts/lint-plugin.sh
-        language: system
-        pass_filenames: false

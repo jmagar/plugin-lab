@@ -9,7 +9,6 @@ Scripts used for maintenance, hooks, and testing.
 | `check-docker-security.sh` | Lint Dockerfile for security issues (non-root, no secrets) |
 | `check-no-baked-env.sh` | Verify Docker images contain no baked environment variables |
 | `ensure-ignore-files.sh` | Confirm `.gitignore` and `.dockerignore` include required patterns |
-| `lint-plugin.sh` | Validate plugin manifests against expected schema |
 | `check-outdated-deps.sh` | Report outdated dependencies |
 
 ### Usage

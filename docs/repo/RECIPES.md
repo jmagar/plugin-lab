@@ -21,14 +21,6 @@ bash scripts/scaffold-plugin.sh synapse typescript --port 3000
 bash scripts/scaffold-plugin.sh syslog rust --port 3100
 ```
 
-### Lint a plugin
-
-```bash
-bash scripts/lint-plugin.sh [project-dir]
-```
-
-Runs 16 check categories against a plugin directory.
-
 ### Validate version sync
 
 ```bash

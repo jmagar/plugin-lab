@@ -62,7 +62,7 @@ You own all four workflow files and the pre-commit hook config:
 - **`ci.yaml`** — lint → type-check → test gate, runs on PR and push to main
 - **`publish-image.yaml`** — builds and pushes Docker image to GHCR on every push; tags with branch ref, git SHA, and semver on tag push; uses GHA layer cache
 - **`release-on-main.yaml`** — reads version from package manifest (pyproject.toml, Cargo.toml, or package.json), creates a git tag, cuts a GitHub release with auto-generated notes; fails if the tag already exists (enforcing a version bump on every main push)
-- **Pre-commit hook config** — `pre-commit-config.yaml` (Python) or `lefthook.yml` (Rust, TypeScript), both run `scripts/lint-plugin.sh` as the local dev quality gate
+- **Pre-commit hook config** — `pre-commit-config.yaml` (Python) or `lefthook.yml` (Rust, TypeScript)
 - **Justfile targets** — `lint`, `type-check`, `test`, `test-live`, `build`, `push` that mirror each CI step locally
 
 ## Implementation Principle

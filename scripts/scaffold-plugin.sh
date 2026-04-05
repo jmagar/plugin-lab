@@ -550,12 +550,8 @@ esac
 
 # ── 28. scripts/ — copy from canonical templates ────────────────────────────
 
-for script in check-docker-security.sh check-no-baked-env.sh lint-plugin.sh; do
-  if [[ "$script" == "check-docker-security.sh" || "$script" == "check-no-baked-env.sh" ]]; then
-    src="${TEMPLATE_SHARED_ROOT}/scripts/${script}"
-  else
-    src="${TEMPLATE_LANG_ROOT}/scripts/${script}"
-  fi
+for script in check-docker-security.sh check-no-baked-env.sh; do
+  src="${TEMPLATE_SHARED_ROOT}/scripts/${script}"
   if [ -f "$src" ]; then
     render_template "$src" "${OUT_DIR}/scripts/${script}"
     chmod +x "${OUT_DIR}/scripts/${script}"

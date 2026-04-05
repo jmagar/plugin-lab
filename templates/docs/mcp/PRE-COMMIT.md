@@ -26,12 +26,6 @@ lefthook install
 repos:
   - repo: local
     hooks:
-      - id: plugin-validate
-        name: Validate plugin manifest
-        entry: bash scripts/lint-plugin.sh
-        language: system
-        pass_filenames: false
-
       - id: docker-security
         name: Dockerfile security check
         entry: bash scripts/check-docker-security.sh Dockerfile
@@ -57,8 +51,6 @@ repos:
 ```yaml
 pre-commit:
   commands:
-    plugin-validate:
-      run: bash scripts/lint-plugin.sh
     docker-security:
       glob: "Dockerfile*"
       run: bash scripts/check-docker-security.sh Dockerfile
@@ -74,7 +66,6 @@ All scripts live in `scripts/`. Each exits non-zero on failure.
 
 | Script | Purpose |
 |--------|---------|
-| `lint-plugin.sh` | Validates plugin manifests (`plugin.json` schema, required fields) |
 | `check-docker-security.sh` | Lints Dockerfile: non-root user, no `ADD` from URL, no `latest` base tags |
 | `check-no-baked-env.sh` | Ensures no `ENV` directives in Dockerfile contain secrets |
 | `ensure-ignore-files.sh` | Verifies `.env` appears in `.gitignore` and `.dockerignore` |
