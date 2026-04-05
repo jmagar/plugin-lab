@@ -22,6 +22,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - **docs templates**: Root-level documentation templates (README, SETUP, CONFIG, CHECKLIST, GUARDRAILS, INVENTORY) for plugin scaffolding
 - **docs CLAUDE.md**: Updated with directory index, placeholder conventions, scaffold markers, and style guide
+## [1.0.2] - 2026-04-04
+
+### Added
+- **MCP advanced doc templates**: CONNECT.md (connection guide for all clients/transports/scopes), DEV.md (development workflow), ELICITATION.md (interactive credential entry and destructive operation confirmation), PATTERNS.md (reusable code patterns across languages), WEBMCP.md (browser-accessible MCP endpoints), MCPUI.md (protocol-level UI hints).
 
 ## [1.0.1] - 2026-04-03
 
